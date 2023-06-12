@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class UserController {
 
     private UserService userService;
 
+    @Autowired
     public UserController(UserService userService){
         this.userService=  userService;
     }
@@ -40,12 +42,10 @@ public class UserController {
         return new ResponseEntity<>(userService.login(userDTO, request), HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/logout")
+    @PatchMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        session.removeAttribute("id");
-        session.invalidate();
-        return new ResponseEntity<>("Logout!", HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(userService.logout(request), HttpStatus.ACCEPTED);
     }
 
 }

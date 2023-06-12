@@ -7,6 +7,7 @@ import com.adebis.week_nine.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class ImageController {
 
 
 private ImageService imageService;
-
+@Autowired
 public ImageController(ImageService imageService){
     this.imageService = imageService;
 }

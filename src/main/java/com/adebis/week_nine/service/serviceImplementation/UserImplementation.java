@@ -124,10 +124,24 @@ public class UserImplementation implements UserService {
         return response;
     }
 
+    @Override
+    public String logout(HttpServletRequest request) {
+        String principal = Util.checkForCurrentUserId(request);
+        User user = userRepo.findUserByEmail(principal).get();
+        invalidateToken(user.getId());
+        return "Successfull";
+    }
+
 
     public void invalidateToken(Long userId){
         List<Token> listofTokens = tokenRepo.findAllByUser_Email(userId);
-        System.out.println(listofTokens);
+        listofTokens= listofTokens.stream().map(token -> {
+            token.setInvalid(true);
+            return token;
+        }).toList();
+
+        tokenRepo.saveAll(listofTokens);
+//        System.out.println(listofTokens);
 
     }
 

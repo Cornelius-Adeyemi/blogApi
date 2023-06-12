@@ -15,6 +15,6 @@ public interface TokenRepo extends JpaRepository<Token, Long> {
 
     Optional<Token> findByValue(String token);
 
-//    @Query(value = "SELECT * FROM token t inner join users u on t.user_id = u.id where (u.id=?1 and t.is_invalid=false)" , nativeQuery = true)
-//    List<Token> findAllByUser_Email(Long userId);
+    @Query(value = "SELECT t FROM Token t inner join User u on t.user.id = u.id where (u.id=?1 and t.isInvalid=false)" )
+    List<Token> findAllByUser_Email(Long userId);
 }

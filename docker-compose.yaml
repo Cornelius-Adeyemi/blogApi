@@ -1,0 +1,32 @@
+version: "3"
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=week_10
+
+    volumes:
+      - data:/var/lib/postgresql/data
+
+
+
+  blogapi:
+    build: .
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/week_10
+    depends_on:
+      - database
+
+    ports:
+      - 8080:8080
+
+volumes:
+  data:
+

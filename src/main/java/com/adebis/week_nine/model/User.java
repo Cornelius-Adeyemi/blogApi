@@ -3,6 +3,7 @@ package com.adebis.week_nine.model;
 import com.adebis.week_nine.DTO.user.UserDTO;
 import com.adebis.week_nine.enumpackage.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +42,7 @@ public class User extends Auditable{
      private Boolean isActive=true;
 
      private Boolean isEnabled=true;
-
+     @JsonIgnoreProperties("user")
      @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch =FetchType.LAZY )
      private List<Token> token;
 

@@ -21,7 +21,7 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-   @Operation(summary = "This is an endpoint for the manager to signup")
+    @Operation(summary = "This is an endpoint for the manager to signup")
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> adminSignup(@RequestBody UserRegistrationDTO userRegistrationDTO) throws CustomError {
 

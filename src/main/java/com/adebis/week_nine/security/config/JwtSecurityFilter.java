@@ -1,5 +1,6 @@
 package com.adebis.week_nine.security.config;
 
+import com.adebis.week_nine.errorpackage.CustomError;
 import com.adebis.week_nine.model.Token;
 import com.adebis.week_nine.repository.TokenRepo;
 import com.adebis.week_nine.security.MyUserDetailService;
@@ -9,6 +10,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,8 +31,9 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
     private final TokenRepo tokenRepo;
 
+    @SneakyThrows
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         String authorizationHeader = request.getHeader("Authorization");
 
         String username= null;
@@ -50,7 +55,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
             if(jwtUtil.validateToken(token, userDetails) && !databaseToken){
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =new UsernamePasswordAuthenticationToken(userDetails.getUsername() ,
-                        userDetails.getPassword(), userDetails.getAuthorities());
+                        null, userDetails.getAuthorities());
 
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -58,9 +63,7 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
 
             }
 
-
         }
-
         filterChain.doFilter(request,response);
 
     }

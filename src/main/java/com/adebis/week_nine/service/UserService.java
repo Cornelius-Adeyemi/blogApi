@@ -11,4 +11,7 @@ public interface UserService {
     UserDTO login(UserLogin userLogin, HttpServletRequest request) throws Exception;
 
     UserDTO register(UserRegistrationDTO userRegistrationDTO) throws CustomError;
+
+
+    String logout(HttpServletRequest request);
 }

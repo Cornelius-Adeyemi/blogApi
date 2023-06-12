@@ -23,7 +23,7 @@ public class JwtUtil {
 
 
 
-@Value("${expiration}")
+   @Value("${expiration}")
     private String expiration;
 
     public static String generateSecret(){
